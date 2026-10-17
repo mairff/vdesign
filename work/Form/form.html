@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Form / Everyday — Start a conversation</title>
+<meta name="description" content="Form / Everyday — tell us about your project. Reach us on WhatsApp or email." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #07090c;
+    --bg-2: #0b1115;
+    --panel: rgba(16, 24, 28, 0.72);
+    --panel-solid: #0e161a;
+    --line: rgba(255, 255, 255, 0.08);
+    --line-strong: rgba(255, 255, 255, 0.16);
+    --text: #eef3f3;
+    --muted: #8a9a9d;
+    --dim: #56676a;
+    --teal: #2fb8b8;
+    --teal-soft: rgba(47, 184, 184, 0.16);
+    --teal-glow: rgba(47, 184, 184, 0.35);
+    --danger: #ff6b6b;
+    --ok: #4fd1a5;
+    --radius: 22px;
+    --serif: "Fraunces", Georgia, serif;
+    --sans: "Manrope", system-ui, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---------- Ambient background ---------- */
+  .bg {
+    position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(900px 600px at 78% 12%, rgba(47,184,184,0.18), transparent 60%),
+      radial-gradient(700px 500px at 8% 90%, rgba(40,90,110,0.18), transparent 60%),
+      linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+  }
+  .bg::after {
+    content: ""; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+  }
+  .shape {
+    position: fixed; z-index: -1; pointer-events: none;
+    width: 340px; height: 340px; right: -60px; top: 18%;
+    border: 1px solid rgba(47,184,184,0.35);
+    background: linear-gradient(140deg, rgba(47,184,184,0.08), rgba(0,0,0,0.2));
+    transform: rotate(22deg);
+    box-shadow: 0 0 80px rgba(47,184,184,0.12) inset;
+    animation: drift 18s ease-in-out infinite alternate;
+  }
+  @keyframes drift {
+    from { transform: rotate(22deg) translateY(0); }
+    to   { transform: rotate(34deg) translateY(40px); }
+  }
+
+  /* ---------- Top bar ---------- */
+  header {
+    position: sticky; top: 0; z-index: 10;
+    backdrop-filter: blur(14px);
+    background: rgba(7, 9, 12, 0.6);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav {
+    max-width: 1180px; margin: 0 auto; padding: 18px 28px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .brand {
+    font-family: var(--serif); font-weight: 700; font-size: 22px;
+    color: var(--text); text-decoration: none; letter-spacing: -0.01em;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .brand .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 12px var(--teal); }
+  .back {
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; padding: 10px 16px;
+    border: 1px solid var(--line-strong); border-radius: 999px; transition: .25s;
+  }
+  .back:hover { color: var(--text); border-color: var(--teal); }
+
+  /* ---------- Layout ---------- */
+  main { max-width: 1180px; margin: 0 auto; padding: 72px 28px 96px; }
+  .grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 56px; align-items: start; }
+
+  .eyebrow {
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--teal); display: inline-flex; align-items: center; gap: 10px; margin-bottom: 22px;
+  }
+  .eyebrow::before { content: ""; width: 28px; height: 1px; background: var(--teal); }
+
+  h1 {
+    font-family: var(--serif); font-weight: 600;
+    font-size: clamp(42px, 6vw, 76px); line-height: 1.02; letter-spacing: -0.03em;
+    min-height: 2.1em;
+  }
+  h1 .typed { color: var(--text); }
+  h1 .accent { color: var(--teal); font-style: italic; }
+  .cursor {
+    display: inline-block; width: 3px; height: 0.85em; margin-left: 6px;
+    background: var(--teal); vertical-align: -0.08em;
+    animation: blink 1s steps(1) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .lead { color: var(--muted); font-size: 17px; max-width: 440px; margin-top: 22px; }
+
+  /* ---------- Contact cards ---------- */
+  .contacts { margin-top: 40px; display: grid; gap: 14px; }
+  .contact {
+    display: flex; align-items: center; gap: 16px;
+    padding: 18px 20px; border-radius: 18px;
+    border: 1px solid var(--line); background: var(--panel);
+    text-decoration: none; color: var(--text); transition: .3s;
+  }
+  .contact:hover { border-color: var(--teal); transform: translateY(-2px); box-shadow: 0 12px 40px -18px var(--teal-glow); }
+  .contact .ic {
+    width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+    display: grid; place-items: center; background: var(--teal-soft); color: var(--teal);
+  }
+  .contact .ic svg { width: 22px; height: 22px; }
+  .contact small {
+    display: block; font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--dim);
+  }
+  .contact strong { font-weight: 600; font-size: 15px; word-break: break-all; }
+  .contact .arrow { margin-left: auto; color: var(--dim); transition: .3s; }
+  .contact:hover .arrow { color: var(--teal); transform: translate(3px, -3px); }
+
+  .meta {
+    margin-top: 34px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--dim); display: flex; gap: 18px; flex-wrap: wrap;
+  }
+  .meta span::before { content: "● "; color: var(--ok); }
+
+  /* ---------- Form card ---------- */
+  .card {
+    position: relative; border-radius: var(--radius);
+    border: 1px solid var(--line); background: var(--panel);
+    backdrop-filter: blur(18px); overflow: hidden;
+    box-shadow: 0 40px 120px -40px rgba(0,0,0,0.8);
+  }
+  .card::before {
+    content: ""; position: absolute; width: 420px; height: 420px; right: -160px; top: -200px;
+    background: radial-gradient(circle, rgba(47,184,184,0.25), transparent 65%); pointer-events: none;
+  }
+  .card-top {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 24px; border-bottom: 1px solid var(--line);
+  }
+  .dots { display: flex; gap: 6px; }
+  .dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--dim); display: block; }
+  .card-top .label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; color: var(--dim); text-transform: uppercase; }
+
+  form { padding: 32px 32px 34px; position: relative; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .field { margin-bottom: 20px; position: relative; }
+  label {
+    display: block; font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 9px;
+  }
+  label .req { color: var(--teal); }
+  input, select, textarea {
+    width: 100%; font: inherit; font-size: 15px; color: var(--text);
+    background: rgba(0,0,0,0.28); border: 1px solid var(--line-strong);
+    border-radius: 14px; padding: 14px 16px; outline: none; transition: .25s;
+  }
+  input::placeholder, textarea::placeholder { color: var(--dim); }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--teal); background: rgba(47,184,184,0.05);
+    box-shadow: 0 0 0 4px rgba(47,184,184,0.12);
+  }
+  select {
+    appearance: none; cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%238a9a9d' stroke-width='1.6'%3E%3Cpath d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 16px center;
+  }
+  select option { background: var(--panel-solid); color: var(--text); }
+  textarea { min-height: 140px; resize: vertical; }
+  .count { position: absolute; right: 12px; bottom: 10px; font-family: var(--mono); font-size: 10px; color: var(--dim); }
+
+  .field.invalid input, .field.invalid select, .field.invalid textarea { border-color: var(--danger); }
+  .err { display: none; color: var(--danger); font-size: 12px; margin-top: 6px; }
+  .field.invalid .err { display: block; }
+
+  /* chips */
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; }
+  .chip input { display: none; }
+  .chip span {
+    display: inline-block; padding: 9px 16px; border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--line-strong); font-size: 13px; color: var(--muted); transition: .2s;
+    user-select: none;
+  }
+  .chip span:hover { color: var(--text); }
+  .chip input:checked + span { background: var(--teal); border-color: var(--teal); color: #041214; font-weight: 600; }
+
+  /* send via */
+  .via { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 6px 0 24px; }
+  .via label {
+    margin: 0; display: flex; align-items: center; gap: 10px; cursor: pointer;
+    padding: 14px 16px; border-radius: 14px; border: 1px solid var(--line-strong);
+    font-family: var(--sans); font-size: 14px; letter-spacing: 0; text-transform: none; color: var(--muted);
+    transition: .2s;
+  }
+  .via input { display: none; }
+  .via .radio { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid var(--dim); position: relative; flex-shrink: 0; }
+  .via input:checked + label { border-color: var(--teal); color: var(--text); background: var(--teal-soft); }
+  .via input:checked + label .radio { border-color: var(--teal); }
+  .via input:checked + label .radio::after {
+    content: ""; position: absolute; inset: 3px; border-radius: 50%; background: var(--teal);
+  }
+
+  .submit {
+    width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;
+    padding: 17px 24px; border: none; border-radius: 999px; cursor: pointer;
+    font: inherit; font-weight: 600; font-size: 15px;
+    background: var(--text); color: #071012; transition: .3s;
+  }
+  .submit:hover { background: var(--teal); box-shadow: 0 14px 40px -12px var(--teal-glow); transform: translateY(-1px); }
+  .submit svg { width: 18px; height: 18px; transition: .3s; }
+  .submit:hover svg { transform: translate(3px, -3px); }
+  .note { margin-top: 14px; text-align: center; font-size: 12px; color: var(--dim); }
+
+  /* success */
+  .success {
+    display: none; padding: 64px 32px; text-align: center;
+  }
+  .success.show { display: block; animation: rise .5s ease; }
+  .success .tick {
+    width: 64px; height: 64px; margin: 0 auto 22px; border-radius: 50%;
+    display: grid; place-items: center; background: var(--teal-soft); color: var(--teal);
+  }
+  .success h2 { font-family: var(--serif); font-weight: 600; font-size: 32px; margin-bottom: 10px; }
+  .success p { color: var(--muted); max-width: 360px; margin: 0 auto 26px; }
+  .ghost {
+    background: transparent; border: 1px solid var(--line-strong); color: var(--text);
+    padding: 12px 22px; border-radius: 999px; cursor: pointer; font: inherit; font-size: 14px;
+  }
+  .ghost:hover { border-color: var(--teal); }
+  @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .8s ease, transform .8s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  footer {
+    border-top: 1px solid var(--line); text-align: center; padding: 28px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--dim);
+  }
+
+  @media (max-width: 920px) {
+    .grid { grid-template-columns: 1fr; gap: 44px; }
+    main { padding-top: 48px; }
+    .shape { display: none; }
+  }
+  @media (max-width: 560px) {
+    .row, .via { grid-template-columns: 1fr; }
+    form { padding: 24px 20px 26px; }
+    .nav { padding: 16px 20px; }
+    main { padding: 40px 20px 72px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="shape"></div>
+
+  <header>
+    <nav class="nav">
+      <a class="brand" href="../../index.html"><span class="dot"></span>Form / Everyday</a>
+      <a class="back" href="../../index.html">&larr; Back to work</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="grid">
+      <!-- Left: intro + contact -->
+      <section class="reveal">
+        <div class="eyebrow">Start a project</div>
+        <h1><span class="typed" id="typed"></span><span class="cursor"></span></h1>
+        <p class="lead">Tell me a little about what you're building. I read every message and reply within 24 hours — usually much sooner.</p>
+
+        <div class="contacts">
+          <a class="contact" href="https://wa.me/923353324086" target="_blank" rel="noopener">
+            <div class="ic">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3 2.4 1 2.9.8 3.4.7.5-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
+            </div>
+            <div><small>WhatsApp</small><strong>0335 3324086</strong></div>
+            <span class="arrow">&#8599;</span>
+          </a>
+          <a class="contact" href="mailto:hello.inkwell.designs@gmail.com">
+            <div class="ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+            </div>
+            <div><small>Email</small><strong>hello.inkwell.designs@gmail.com</strong></div>
+            <span class="arrow">&#8599;</span>
+          </a>
+        </div>
+
+        <div class="meta"><span>Available for new work</span>Reply &lt; 24h</div>
+      </section>
+
+      <!-- Right: form -->
+      <section class="card reveal">
+        <div class="card-top">
+          <div class="dots"><i></i><i></i><i></i></div>
+          <div class="label">Project brief / 2026</div>
+        </div>
+
+        <form id="briefForm" novalidate>
+          <div class="row">
+            <div class="field">
+              <label for="name">Your name <span class="req">*</span></label>
+              <input id="name" name="name" type="text" placeholder="Jane Doe" autocomplete="name" maxlength="80" />
+              <div class="err">Please enter your name.</div>
+            </div>
+            <div class="field">
+              <label for="email">Email <span class="req">*</span></label>
+              <input id="email" name="email" type="email" placeholder="jane@company.com" autocomplete="email" maxlength="120" />
+              <div class="err">Please enter a valid email.</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="field">
+              <label for="phone">Phone / WhatsApp</label>
+              <input id="phone" name="phone" type="tel" placeholder="+1 300 0000000" autocomplete="tel" maxlength="30" />
+            </div>
+            <div class="field">
+              <label for="budget">Budget</label>
+              <select id="budget" name="budget">
+                <option value="">Select a range</option>
+                <option>Under $500</option>
+                <option>$500 – $1,500</option>
+                <option>$1,500 – $5,000</option>
+                <option>$5,000+</option>
+                <option>Not sure yet</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>What do you need?</label>
+            <div class="chips">
+              <label class="chip"><input type="checkbox" name="service" value="Website" /><span>Website</span></label>
+              <label class="chip"><input type="checkbox" name="service" value="Template" /><span>Template</span></label>
+              <label class="chip"><input type="checkbox" name="service" value="Branding" /><span>Branding</span></label>
+              <label class="chip"><input type="checkbox" name="service" value="Redesign" /><span>Redesign</span></label>
+              <label class="chip"><input type="checkbox" name="service" value="E-commerce" /><span>E-commerce</span></label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="message">Tell me about the project <span class="req">*</span></label>
+            <textarea id="message" name="message" placeholder="Goals, timeline, links you like…" maxlength="1000"></textarea>
+            <span class="count" id="count">0 / 1000</span>
+            <div class="err">A short message helps (at least 10 characters).</div>
+          </div>
+
+          <label style="margin-bottom:10px">Send it via</label>
+          <div class="via">
+            <input type="radio" id="viaWa" name="via" value="whatsapp" checked />
+            <label for="viaWa"><span class="radio"></span>WhatsApp</label>
+            <input type="radio" id="viaMail" name="via" value="email" />
+            <label for="viaMail"><span class="radio"></span>Email</label>
+          </div>
+
+          <button class="submit" type="submit">
+            Send message
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17L17 7M9 7h8v8"/></svg>
+          </button>
+          <p class="note">Your message opens ready to send — nothing is stored.</p>
+        </form>
+
+        <div class="success" id="success">
+          <div class="tick">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>
+          </div>
+          <h2>Almost there.</h2>
+          <p>Your message is ready in <span id="viaName">WhatsApp</span> — just hit send and I'll get back to you soon.</p>
+          <button class="ghost" id="again" type="button">Write another</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>Built once &middot; Handed over properly</footer>
+
+<script>
+  /* ---------- Typewriter ---------- */
+  (function () {
+    const el = document.getElementById("typed");
+    const phrases = [
+      "Let's build something <span class='accent'>everyday.</span>",
+      "Let's make it <span class='accent'>clean.</span>",
+      "Let's make it <span class='accent'>yours.</span>",
+      "Say <span class='accent'>hello.</span>"
+    ];
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) { el.innerHTML = phrases[0]; return; }
+
+    // Parse each phrase into [{char, accent}]
+    const parse = (html) => {
+      const out = []; const tmp = document.createElement("div"); tmp.innerHTML = html;
+      tmp.childNodes.forEach((n) => {
+        const accent = n.nodeType === 1;
+        [...n.textContent].forEach((c) => out.push({ c, accent }));
+      });
+      return out;
+    };
+    const render = (chars, n) => {
+      let html = "", inAccent = false;
+      for (let i = 0; i < n; i++) {
+        const ch = chars[i];
+        if (ch.accent && !inAccent) { html += "<span class='accent'>"; inAccent = true; }
+        if (!ch.accent && inAccent) { html += "</span>"; inAccent = false; }
+        html += ch.c === "<" ? "&lt;" : ch.c;
+      }
+      if (inAccent) html += "</span>";
+      el.innerHTML = html;
+    };
+
+    let p = 0, i = 0, deleting = false, chars = parse(phrases[0]);
+    function tick() {
+      render(chars, i);
+      let delay = deleting ? 35 : 75 + Math.random() * 50;
+      if (!deleting && i === chars.length) { deleting = true; delay = 2200; }
+      else if (deleting && i === 0) {
+        deleting = false; p = (p + 1) % phrases.length; chars = parse(phrases[p]); delay = 400;
+      } else { i += deleting ? -1 : 1; }
+      setTimeout(tick, delay);
+    }
+    tick();
+  })();
+
+  /* ---------- Reveal on load ---------- */
+  requestAnimationFrame(() => {
+    document.querySelectorAll(".reveal").forEach((r, idx) => setTimeout(() => r.classList.add("in"), 120 + idx * 160));
+  });
+
+  /* ---------- Form ---------- */
+  (function () {
+    const WHATSAPP = "923353324086";
+    const EMAIL = "hello.inkwell.designs@gmail.com";
+    const form = document.getElementById("briefForm");
+    const success = document.getElementById("success");
+    const msg = document.getElementById("message");
+    const count = document.getElementById("count");
+
+    msg.addEventListener("input", () => (count.textContent = msg.value.length + " / 1000"));
+
+    const rules = {
+      name: (v) => v.trim().length >= 2,
+      email: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()),
+      message: (v) => v.trim().length >= 10,
+    };
+    const check = (id) => {
+      const input = document.getElementById(id);
+      const ok = rules[id](input.value);
+      input.closest(".field").classList.toggle("invalid", !ok);
+      return ok;
+    };
+    Object.keys(rules).forEach((id) => {
+      const input = document.getElementById(id);
+      input.addEventListener("blur", () => check(id));
+      input.addEventListener("input", () => {
+        if (input.closest(".field").classList.contains("invalid")) check(id);
+      });
+    });
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const results = Object.keys(rules).map(check);
+      if (results.includes(false)) {
+        const first = form.querySelector(".field.invalid input, .field.invalid textarea");
+        if (first) first.focus();
+        return;
+      }
+      const d = new FormData(form);
+      const services = d.getAll("service").join(", ") || "—";
+      const via = d.get("via");
+      const lines = [
+        "Hi Inkwell! New project enquiry:",
+        "",
+        "Name: " + d.get("name").trim(),
+        "Email: " + d.get("email").trim(),
+        "Phone: " + (d.get("phone").trim() || "—"),
+        "Budget: " + (d.get("budget") || "—"),
+        "Needs: " + services,
+        "",
+        d.get("message").trim(),
+      ];
+      const text = lines.join("\n");
+
+      if (via === "whatsapp") {
+        window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(text), "_blank", "noopener");
+      } else {
+        const subject = "New project enquiry — " + d.get("name").trim();
+        window.location.href = "mailto:" + EMAIL + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(text);
+      }
+
+      document.getElementById("viaName").textContent = via === "whatsapp" ? "WhatsApp" : "your email app";
+      form.style.display = "none";
+      success.classList.add("show");
+    });
+
+    document.getElementById("again").addEventListener("click", () => {
+      form.reset();
+      count.textContent = "0 / 1000";
+      success.classList.remove("show");
+      form.style.display = "block";
+    });
+  })();
+</script>
+</body>
+</html>

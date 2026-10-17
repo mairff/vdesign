@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FORGE Gym | Built For The Relentless</title>
+  <meta name="description" content="Elite coaching, Olympic-grade iron, and an atmosphere where limits get destroyed. Step inside and forge your strength.">
+  <meta property="og:title" content="FORGE Gym | Built For The Relentless">
+  <meta property="og:description" content="Olympic-grade iron, elite coaching and a recovery suite built for real results.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#0b0b0c">
+  <link rel="icon" href="../../assets/favicon.ico">
+  <link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#0b0b0c; --bg-2:#121214; --card:#16161a; --line:#26262c;
+      --text:#f4f1ea; --muted:#9a978f; --accent:#ff4d00; --accent-2:#ffb800;
+      --radius:14px; --max:1200px;
+      --display:'Anton',Impact,sans-serif; --body:'Archivo',system-ui,sans-serif; --mono:'JetBrains Mono',monospace;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--text);font-family:var(--body);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    img{max-width:100%;display:block}
+    a{color:inherit;text-decoration:none}
+    .container{width:min(var(--max),92%);margin-inline:auto}
+    .text-center{text-align:center}
+    .text-accent{color:var(--accent)}
+    .outline-text{-webkit-text-stroke:2px var(--text);color:transparent}
+
+    /* grain */
+    body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;opacity:.05;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+    /* buttons */
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:.85rem;padding:.9rem 1.6rem;border-radius:999px;border:2px solid transparent;transition:transform .2s,background .2s,color .2s,box-shadow .2s;cursor:pointer}
+    .btn-primary{background:var(--accent);color:#0b0b0c}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px -8px rgba(255,77,0,.6)}
+    .btn-outline{border-color:var(--line);color:var(--text)}
+    .btn-outline:hover{border-color:var(--text);background:var(--text);color:var(--bg)}
+    .btn-sm{padding:.6rem 1.1rem;font-size:.75rem}
+    .btn-lg{padding:1.1rem 2rem;font-size:.9rem}
+    .full-width{width:100%}
+    .btn .arrow{transition:transform .2s}
+    .btn:hover .arrow{transform:translateX(4px)}
+
+    /* header */
+    .site-header{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .3s,border-color .3s,padding .3s;padding:1.2rem 0;border-bottom:1px solid transparent}
+    .site-header.scrolled{background:rgba(11,11,12,.85);backdrop-filter:blur(14px);border-color:var(--line);padding:.75rem 0}
+    .nav-container{display:flex;align-items:center;justify-content:space-between}
+    .logo{font-family:var(--display);font-size:1.8rem;letter-spacing:.06em;display:flex;align-items:center;gap:.3rem}
+    .logo-mark{color:var(--accent)}
+    .logo-dot{color:var(--accent)}
+    .nav-menu{display:flex;align-items:center;gap:2rem}
+    .nav-link{font-size:.85rem;font-weight:600;color:var(--muted);position:relative;transition:color .2s}
+    .nav-link::after{content:"";position:absolute;left:0;bottom:-6px;height:2px;width:0;background:var(--accent);transition:width .25s}
+    .nav-link:hover,.nav-link.active{color:var(--text)}
+    .nav-link:hover::after,.nav-link.active::after{width:100%}
+    .menu-toggle{display:none;background:none;border:0;cursor:pointer;width:32px;height:24px;position:relative}
+    .menu-toggle .bar{position:absolute;left:0;width:100%;height:2px;background:var(--text);transition:.3s}
+    .menu-toggle .bar:nth-child(1){top:2px}.menu-toggle .bar:nth-child(2){top:11px}.menu-toggle .bar:nth-child(3){top:20px}
+    .menu-toggle.open .bar:nth-child(1){top:11px;transform:rotate(45deg)}
+    .menu-toggle.open .bar:nth-child(2){opacity:0}
+    .menu-toggle.open .bar:nth-child(3){top:11px;transform:rotate(-45deg)}
+
+    /* hero */
+    .hero-section{position:relative;min-height:100vh;display:flex;align-items:center;padding:8rem 0 4rem;
+      background:url("assets/gym.png") center/cover no-repeat, var(--bg-2)}
+    .hero-overlay{position:absolute;inset:0;background:
+      radial-gradient(ellipse at 80% 20%,rgba(255,77,0,.25),transparent 55%),
+      linear-gradient(180deg,rgba(11,11,12,.55) 0%,rgba(11,11,12,.85) 60%,var(--bg) 100%)}
+    .hero-content{position:relative;z-index:2}
+    .badge{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--mono);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line);background:rgba(22,22,26,.7);padding:.5rem 1rem;border-radius:999px;margin-bottom:1.8rem}
+    .badge .pulse{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 0 rgba(255,77,0,.7);animation:pulse 1.8s infinite}
+    @keyframes pulse{70%{box-shadow:0 0 0 10px rgba(255,77,0,0)}100%{box-shadow:0 0 0 0 rgba(255,77,0,0)}}
+    .hero-title{font-family:var(--display);font-weight:400;font-size:clamp(3.2rem,10vw,8.5rem);line-height:.92;text-transform:uppercase;letter-spacing:.01em;max-width:12ch}
+    .hero-subtext{color:#cfcbc2;font-size:clamp(1rem,1.6vw,1.2rem);max-width:56ch;margin:1.6rem 0 2.4rem}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:1rem}
+    .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);margin-top:4.5rem;border:1px solid var(--line);border-radius:var(--radius);background:rgba(18,18,20,.7);backdrop-filter:blur(8px);overflow:hidden}
+    .stat-card{padding:1.6rem 1.4rem;border-right:1px solid var(--line)}
+    .stat-card:last-child{border-right:0}
+    .stat-num{display:block;font-family:var(--display);font-size:2.6rem;line-height:1;color:var(--text)}
+    .stat-label{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+    /* marquee */
+    .marquee{background:var(--accent);color:#0b0b0c;overflow:hidden;padding:1rem 0;transform:rotate(-1.5deg);margin:-1rem -2% 0;width:104%}
+    .marquee-track{display:flex;gap:3rem;width:max-content;animation:scroll 28s linear infinite;font-family:var(--display);font-size:1.8rem;text-transform:uppercase;white-space:nowrap}
+    .marquee-track span::after{content:"✦";margin-left:3rem}
+    @keyframes scroll{to{transform:translateX(-50%)}}
+
+    /* sections */
+    .section{padding:7rem 0}
+    .section-head{margin-bottom:3.5rem}
+    .section-head.text-center .section-desc{margin-inline:auto}
+    .section-tag{font-family:var(--mono);font-size:.75rem;letter-spacing:.18em;color:var(--accent);display:inline-block;margin-bottom:.8rem}
+    .section-tag::before{content:"// "}
+    .section-title{font-family:var(--display);font-weight:400;font-size:clamp(2.3rem,5vw,4rem);line-height:1;text-transform:uppercase}
+    .section-desc{color:var(--muted);max-width:52ch;margin-top:1rem;font-size:1.05rem}
+
+    /* features */
+    .features-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem}
+    .feature-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:2rem 1.6rem;position:relative;overflow:hidden;transition:transform .3s,border-color .3s}
+    .feature-card::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,0%),rgba(255,77,0,.18),transparent 60%);opacity:0;transition:opacity .3s}
+    .feature-card:hover{transform:translateY(-6px);border-color:rgba(255,77,0,.5)}
+    .feature-card:hover::before{opacity:1}
+    .feature-card>*{position:relative}
+    .feature-num{font-family:var(--mono);font-size:.75rem;color:var(--muted)}
+    .feature-icon{font-size:2rem;margin:1.2rem 0;width:58px;height:58px;display:grid;place-items:center;border-radius:12px;background:var(--bg-2);border:1px solid var(--line)}
+    .feature-card h3{font-size:1.15rem;margin-bottom:.6rem}
+    .feature-card p{color:var(--muted);font-size:.93rem}
+
+    /* programs */
+    .programs-section{background:var(--bg-2);border-block:1px solid var(--line)}
+    .programs-head{display:flex;justify-content:space-between;align-items:end;gap:2rem;flex-wrap:wrap}
+    .programs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+    .program-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:2.2rem;display:flex;flex-direction:column;transition:transform .3s,border-color .3s}
+    .program-card:hover{transform:translateY(-6px);border-color:var(--text)}
+    .program-card.highlight{background:linear-gradient(160deg,#2a1206 0%,var(--card) 60%);border-color:rgba(255,77,0,.6)}
+    .program-tag{align-self:flex-start;font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;padding:.35rem .8rem;border:1px solid var(--line);border-radius:999px;margin-bottom:1.5rem}
+    .program-tag.accent{background:var(--accent);color:#0b0b0c;border-color:var(--accent)}
+    .program-card h3{font-family:var(--display);font-weight:400;font-size:1.9rem;line-height:1.05;text-transform:uppercase;margin-bottom:.9rem}
+    .program-card p{color:var(--muted);margin-bottom:1.5rem}
+    .program-perks{list-style:none;margin-top:auto;border-top:1px solid var(--line);padding-top:1.2rem;display:grid;gap:.5rem}
+    .program-perks li{font-size:.9rem;display:flex;gap:.6rem}
+    .program-perks li::before{content:"→";color:var(--accent)}
+
+    /* schedule */
+    .schedule{margin-top:3rem;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+    .schedule-row{display:grid;grid-template-columns:1fr 2fr 1fr 1fr;padding:1rem 1.4rem;border-bottom:1px solid var(--line);font-size:.92rem;align-items:center}
+    .schedule-row:last-child{border-bottom:0}
+    .schedule-row.head{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:var(--card)}
+    .schedule-row:not(.head):hover{background:rgba(255,77,0,.06)}
+    .schedule-row .time{font-family:var(--mono);color:var(--accent)}
+    .lvl{font-size:.75rem;padding:.2rem .6rem;border-radius:999px;border:1px solid var(--line);justify-self:start}
+
+    /* testimonials */
+    .testi-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:1.2rem}
+    .testi{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:2rem;display:flex;flex-direction:column;gap:1.4rem}
+    .testi.big{background:var(--text);color:var(--bg)}
+    .testi.big .testi-who span{color:#55534e}
+    .testi blockquote{font-size:1.05rem;line-height:1.55}
+    .testi.big blockquote{font-family:var(--display);font-size:2rem;line-height:1.1;text-transform:uppercase}
+    .testi-who{margin-top:auto;display:flex;align-items:center;gap:.8rem;font-weight:700}
+    .testi-who span{display:block;font-weight:400;font-size:.8rem;color:var(--muted)}
+    .avatar{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:#0b0b0c;font-weight:800}
+    .stars{color:var(--accent-2);letter-spacing:.15em}
+
+    /* pricing */
+    .billing-toggle{display:inline-flex;margin-top:2rem;border:1px solid var(--line);border-radius:999px;padding:4px;background:var(--card)}
+    .billing-toggle button{background:none;border:0;color:var(--muted);font:600 .8rem var(--body);padding:.6rem 1.2rem;border-radius:999px;cursor:pointer;text-transform:uppercase;letter-spacing:.05em}
+    .billing-toggle button.active{background:var(--text);color:var(--bg)}
+    .save{color:var(--accent);font-size:.7rem;margin-left:.3rem}
+    .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;align-items:stretch}
+    .pricing-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:2.4rem 2rem;display:flex;flex-direction:column;position:relative;transition:transform .3s}
+    .pricing-card:hover{transform:translateY(-6px)}
+    .pricing-card.popular{border:2px solid var(--accent);box-shadow:0 30px 80px -30px rgba(255,77,0,.45);transform:scale(1.03)}
+    .pricing-card.popular:hover{transform:scale(1.03) translateY(-6px)}
+    .popular-ribbon{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--accent);color:#0b0b0c;font-family:var(--mono);font-size:.7rem;font-weight:700;letter-spacing:.12em;padding:.4rem 1rem;border-radius:999px;white-space:nowrap}
+    .tier-name{font-family:var(--display);font-weight:400;font-size:1.8rem;letter-spacing:.02em}
+    .tier-desc{color:var(--muted);font-size:.92rem;margin:.3rem 0 1.6rem}
+    .price{display:flex;align-items:flex-start;gap:.2rem;margin-bottom:1.8rem;padding-bottom:1.8rem;border-bottom:1px solid var(--line)}
+    .currency{font-size:1.4rem;font-weight:700;margin-top:.6rem}
+    .amount{font-family:var(--display);font-size:4.5rem;line-height:1}
+    .period{color:var(--muted);align-self:flex-end;margin-bottom:.7rem}
+    .tier-features{list-style:none;display:grid;gap:.85rem;margin-bottom:2.2rem;flex:1}
+    .tier-features li{font-size:.93rem;display:flex;gap:.7rem}
+    .tier-features li .ic{color:var(--accent);font-weight:800}
+    .tier-features li.muted{color:#5c5a55;text-decoration:line-through}
+    .tier-features li.muted .ic{color:#5c5a55}
+    .guarantee{text-align:center;color:var(--muted);font-size:.85rem;margin-top:2.5rem;font-family:var(--mono)}
+
+    /* faq */
+    .faq-wrap{display:grid;grid-template-columns:1fr 1.6fr;gap:4rem}
+    .faq-item{border-bottom:1px solid var(--line)}
+    .faq-q{width:100%;background:none;border:0;color:var(--text);text-align:left;font:700 1.1rem var(--body);padding:1.4rem 0;display:flex;justify-content:space-between;align-items:center;cursor:pointer;gap:1rem}
+    .faq-q .plus{font-size:1.5rem;color:var(--accent);transition:transform .3s}
+    .faq-item.open .plus{transform:rotate(45deg)}
+    .faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease;color:var(--muted)}
+    .faq-a p{padding-bottom:1.4rem}
+
+    /* cta */
+    .cta-banner{position:relative;padding:8rem 0;overflow:hidden;background:var(--accent);color:#0b0b0c}
+    .cta-banner::before{content:"FORGE";position:absolute;font-family:var(--display);font-size:32vw;line-height:.8;left:50%;top:50%;transform:translate(-50%,-50%);color:rgba(0,0,0,.08);pointer-events:none}
+    .banner-title{position:relative;font-family:var(--display);font-weight:400;font-size:clamp(2.8rem,8vw,6.5rem);line-height:.95;text-transform:uppercase}
+    .banner-subtext{position:relative;font-size:1.15rem;margin:1.2rem auto 2.4rem;max-width:48ch;font-weight:500}
+    .cta-banner .btn-primary{position:relative;background:#0b0b0c;color:var(--text)}
+    .cta-banner .btn-primary:hover{box-shadow:0 14px 30px -10px rgba(0,0,0,.6)}
+
+    /* footer */
+    .site-footer{padding-top:5rem;background:var(--bg)}
+    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1.3fr;gap:3rem;padding-bottom:4rem}
+    .footer-col h4{font-family:var(--mono);font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:1.2rem}
+    .footer-text{color:var(--muted);margin:1rem 0 1.4rem;max-width:40ch}
+    .hours{font-size:.88rem;border-left:2px solid var(--accent);padding-left:1rem;color:#cfcbc2}
+    .hours em{color:var(--muted)}
+    .footer-links{list-style:none;display:grid;gap:.6rem}
+    .footer-links a{color:#cfcbc2;transition:color .2s,padding .2s}
+    .footer-links a:hover{color:var(--accent);padding-left:6px}
+    .footer-col p{color:#cfcbc2;margin-bottom:.5rem;font-size:.95rem}
+    .footer-col a.mail:hover{color:var(--accent)}
+    .footer-bottom{border-top:1px solid var(--line);padding:1.4rem 0}
+    .footer-bottom-flex{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-size:.8rem;color:var(--muted);font-family:var(--mono)}
+    .template-tag{color:var(--accent)}
+
+    /* back to top */
+    .to-top{position:fixed;right:1.5rem;bottom:1.5rem;width:48px;height:48px;border-radius:50%;background:var(--accent);color:#0b0b0c;border:0;font-size:1.2rem;font-weight:800;cursor:pointer;opacity:0;pointer-events:none;transform:translateY(10px);transition:.3s;z-index:40}
+    .to-top.show{opacity:1;pointer-events:auto;transform:none}
+
+    /* reveal */
+    .reveal{opacity:0;transform:translateY(30px);transition:opacity .8s ease,transform .8s ease}
+    .reveal.in{opacity:1;transform:none}
+    @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+
+    /* responsive */
+    @media (max-width:1000px){
+      .features-grid{grid-template-columns:repeat(2,1fr)}
+      .programs-grid,.pricing-grid,.testi-grid{grid-template-columns:1fr}
+      .pricing-card.popular{transform:none}
+      .faq-wrap{grid-template-columns:1fr;gap:2rem}
+      .footer-grid{grid-template-columns:1fr 1fr}
+      .footer-grid .footer-col:first-child{grid-column:1/-1}
+    }
+    @media (max-width:820px){
+      .menu-toggle{display:block;z-index:60}
+      .nav-menu{position:fixed;inset:0;background:var(--bg);flex-direction:column;justify-content:center;gap:2rem;transform:translateX(100%);transition:transform .4s ease}
+      .nav-menu.open{transform:none}
+      .nav-link{font-size:1.6rem;font-family:var(--display);font-weight:400;letter-spacing:.04em}
+      .stats-grid{grid-template-columns:repeat(2,1fr)}
+      .stat-card:nth-child(2){border-right:0}
+      .stat-card:nth-child(-n+2){border-bottom:1px solid var(--line)}
+      .schedule-row{grid-template-columns:1fr 1.6fr;row-gap:.3rem}
+      .schedule-row.head{display:none}
+    }
+    @media (max-width:560px){
+      .features-grid,.footer-grid{grid-template-columns:1fr}
+      .section{padding:5rem 0}
+      .hero-actions .btn{width:100%}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header class="site-header" id="header">
+    <div class="container nav-container">
+      <a href="index.html" class="logo" aria-label="FORGE home">
+        <span class="logo-mark">⚡</span>FORGE<span class="logo-dot">.</span>
+      </a>
+
+      <nav class="nav-menu" id="navMenu">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#programs" class="nav-link">Programs</a>
+        <a href="#pricing" class="nav-link">Memberships</a>
+        <a href="#faq" class="nav-link">FAQ</a>
+        <a href="../../contact.html" class="nav-link">Contact</a>
+        <a href="../../contact.html" class="btn btn-sm btn-primary nav-cta">Claim Free Pass</a>
+      </nav>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero-section">
+      <div class="hero-overlay"></div>
+      <div class="container hero-content">
+        <div class="badge reveal"><span class="pulse"></span>No Excuses. No Shortcuts. Open 24/7</div>
+        <h1 class="hero-title reveal">
+          Forge your <span class="text-accent">ultimate</span> <span class="outline-text">physique</span>
+        </h1>
+        <p class="hero-subtext reveal">
+          Olympic-standard iron, elite biomechanical machines, and coaching designed to build raw power and relentless endurance.
+        </p>
+
+        <div class="hero-actions reveal">
+          <a href="../../contact.html" class="btn btn-primary btn-lg">Start 3-Day Free Pass <span class="arrow">→</span></a>
+          <a href="#programs" class="btn btn-outline btn-lg">View Programs</a>
+        </div>
+
+        <div class="stats-grid reveal">
+          <div class="stat-card"><span class="stat-num">24/7</span><span class="stat-label">Facility Access</span></div>
+          <div class="stat-card"><span class="stat-num" data-count="18" data-suffix="k+">0</span><span class="stat-label">Sq. Ft Training Floor</span></div>
+          <div class="stat-card"><span class="stat-num" data-count="35" data-suffix="+">0</span><span class="stat-label">Certified Coaches</span></div>
+          <div class="stat-card"><span class="stat-num" data-count="98" data-suffix="%">0</span><span class="stat-label">Goal Achievement</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Marquee -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>Strength</span><span>Conditioning</span><span>Recovery</span><span>Powerlifting</span><span>MetCon</span><span>Combat</span>
+        <span>Strength</span><span>Conditioning</span><span>Recovery</span><span>Powerlifting</span><span>MetCon</span><span>Combat</span>
+      </div>
+    </div>
+
+    <!-- About -->
+    <section class="section about-section" id="about">
+      <div class="container">
+        <div class="section-head text-center reveal">
+          <span class="section-tag">BUILT DIFFERENT</span>
+          <h2 class="section-title">Why the serious train at Forge</h2>
+          <p class="section-desc">We skipped the spa fluff and built a training ground calibrated for tangible results.</p>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-card reveal">
+            <span class="feature-num">01</span>
+            <div class="feature-icon">🏋️‍♂️</div>
+            <h3>Olympic Caliber Iron</h3>
+            <p>Eleiko bumper plates, custom calibrated barbells, dumbbell racks going up to 150 lbs, and 8 dedicated deadlift platforms.</p>
+          </div>
+          <div class="feature-card reveal">
+            <span class="feature-num">02</span>
+            <div class="feature-icon">⚡</div>
+            <h3>Functional Turf Arena</h3>
+            <p>50-meter turf run equipped with sleds, battle ropes, plyo boxes, and kettlebells for athletic conditioning.</p>
+          </div>
+          <div class="feature-card reveal">
+            <span class="feature-num">03</span>
+            <div class="feature-icon">🎯</div>
+            <h3>Elite 1-on-1 Coaching</h3>
+            <p>Custom periodized programming, body composition tracking, and meal strategy built by experienced strength coaches.</p>
+          </div>
+          <div class="feature-card reveal">
+            <span class="feature-num">04</span>
+            <div class="feature-icon">🧊</div>
+            <h3>Recovery &amp; Thermal Zone</h3>
+            <p>Contrast therapy with commercial cold plunges and infrared dry saunas to accelerate muscle repair and recovery.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Programs -->
+    <section class="section programs-section" id="programs">
+      <div class="container">
+        <div class="section-head programs-head reveal">
+          <div>
+            <span class="section-tag">DISCIPLINES</span>
+            <h2 class="section-title">Engineered for<br>performance</h2>
+          </div>
+          <p class="section-desc">Three tracks. One standard. Every program is coached, measured and progressed week over week.</p>
+        </div>
+
+        <div class="programs-grid">
+          <div class="program-card reveal">
+            <div class="program-tag">Strength</div>
+            <h3>Powerlifting &amp; Hypertrophy</h3>
+            <p>Master the squat, bench, and deadlift while building dense lean mass under targeted progressive overload.</p>
+            <ul class="program-perks"><li>Form check biomechanics</li><li>Custom loading percentages</li></ul>
+          </div>
+          <div class="program-card highlight reveal">
+            <div class="program-tag accent">High Intensity</div>
+            <h3>Forge MetCon &amp; Conditioning</h3>
+            <p>High-tempo circuit intervals that incinerate fat while bulletproofing work capacity and cardiovascular endurance.</p>
+            <ul class="program-perks"><li>Heart rate telemetry</li><li>Small squad dynamics</li></ul>
+          </div>
+          <div class="program-card reveal">
+            <div class="program-tag">Athletics</div>
+            <h3>Combat &amp; Functional Movement</h3>
+            <p>Explosive power development, rotational strength, and mobility work to keep your joints healthy and durable.</p>
+            <ul class="program-perks"><li>Bag &amp; turf conditioning</li><li>Hip &amp; spine mobility flows</li></ul>
+          </div>
+        </div>
+
+        <!-- Class schedule -->
+        <div class="schedule reveal">
+          <div class="schedule-row head"><span>Time</span><span>Class</span><span>Coach</span><span>Level</span></div>
+          <div class="schedule-row"><span class="time">05:30</span><span>Dawn MetCon</span><span>Coach Rae</span><span class="lvl">All levels</span></div>
+          <div class="schedule-row"><span class="time">07:00</span><span>Barbell Strength Club</span><span>Coach Marcus</span><span class="lvl">Intermediate</span></div>
+          <div class="schedule-row"><span class="time">12:15</span><span>Lunch Burn Express</span><span>Coach Lena</span><span class="lvl">All levels</span></div>
+          <div class="schedule-row"><span class="time">18:00</span><span>Combat Conditioning</span><span>Coach Dre</span><span class="lvl">Advanced</span></div>
+          <div class="schedule-row"><span class="time">19:30</span><span>Mobility &amp; Recovery Flow</span><span>Coach Sam</span><span class="lvl">All levels</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="section" id="results">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="section-tag">REAL RESULTS</span>
+          <h2 class="section-title">Members who showed up</h2>
+        </div>
+        <div class="testi-grid">
+          <div class="testi big reveal">
+            <span class="stars">★★★★★</span>
+            <blockquote>"Added 120 lbs to my deadlift in six months. This place doesn't let you coast."</blockquote>
+            <div class="testi-who"><div class="avatar">JT</div><div>Jordan T.<span>Forge Athlete, 2 yrs</span></div></div>
+          </div>
+          <div class="testi reveal">
+            <span class="stars">★★★★★</span>
+            <blockquote>"The cold plunge and sauna changed my recovery completely. Best $89 I spend every month."</blockquote>
+            <div class="testi-who"><div class="avatar">MP</div><div>Maya P.<span>Forge Athlete</span></div></div>
+          </div>
+          <div class="testi reveal">
+            <span class="stars">★★★★★</span>
+            <blockquote>"My coach built me a plan around my shift work. Down 32 lbs and stronger than ever."</blockquote>
+            <div class="testi-who"><div class="avatar">RK</div><div>Ravi K.<span>Elite VIP</span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="section pricing-section" id="pricing">
+      <div class="container">
+        <div class="section-head text-center reveal">
+          <span class="section-tag">MEMBERSHIP TIERS</span>
+          <h2 class="section-title">Invest in your performance</h2>
+          <p class="section-desc">Straightforward pricing. No hidden fees. Zero cancellation penalties.</p>
+          <div class="billing-toggle" role="group" aria-label="Billing period">
+            <button class="active" data-billing="monthly">Monthly</button>
+            <button data-billing="yearly">Yearly <span class="save">-15%</span></button>
+          </div>
+        </div>
+
+        <div class="pricing-grid">
+          <div class="pricing-card reveal">
+            <h3 class="tier-name">STANDARD IRON</h3>
+            <p class="tier-desc">Core access for dedicated lifters.</p>
+            <div class="price"><span class="currency">$</span><span class="amount" data-monthly="49">49</span><span class="period">/mo</span></div>
+            <ul class="tier-features">
+              <li><span class="ic">✓</span>Full gym floor access</li>
+              <li><span class="ic">✓</span>Locker &amp; shower facilities</li>
+              <li><span class="ic">✓</span>Free initial fitness evaluation</li>
+              <li class="muted"><span class="ic">✕</span>Sauna &amp; cold plunge access</li>
+              <li class="muted"><span class="ic">✕</span>Group coaching sessions</li>
+            </ul>
+            <a href="../../contact.html" class="btn btn-outline full-width">Select Plan</a>
+          </div>
+
+          <div class="pricing-card popular reveal">
+            <div class="popular-ribbon">★ MOST POPULAR</div>
+            <h3 class="tier-name">FORGE ATHLETE</h3>
+            <p class="tier-desc">The complete standard for serious transformation.</p>
+            <div class="price"><span class="currency">$</span><span class="amount" data-monthly="89">89</span><span class="period">/mo</span></div>
+            <ul class="tier-features">
+              <li><span class="ic">✓</span>24/7 Unlimited gym &amp; turf access</li>
+              <li><span class="ic">✓</span>Full recovery suite (Cold plunge &amp; sauna)</li>
+              <li><span class="ic">✓</span>Unlimited group MetCon classes</li>
+              <li><span class="ic">✓</span>Monthly InBody scans</li>
+              <li><span class="ic">✓</span>Guest passes (2 per month)</li>
+            </ul>
+            <a href="../../contact.html" class="btn btn-primary full-width">Join Forge Athlete <span class="arrow">→</span></a>
+          </div>
+
+          <div class="pricing-card reveal">
+            <h3 class="tier-name">ELITE VIP</h3>
+            <p class="tier-desc">Private coaching and all-inclusive perks.</p>
+            <div class="price"><span class="currency">$</span><span class="amount" data-monthly="169">169</span><span class="period">/mo</span></div>
+            <ul class="tier-features">
+              <li><span class="ic">✓</span>Everything in Forge Athlete</li>
+              <li><span class="ic">✓</span>4 Dedicated 1-on-1 PT sessions/month</li>
+              <li><span class="ic">✓</span>Custom nutrition &amp; macro roadmap</li>
+              <li><span class="ic">✓</span>Dedicated locker with towel service</li>
+              <li><span class="ic">✓</span>Priority recovery room booking</li>
+            </ul>
+            <a href="../../contact.html" class="btn btn-outline full-width">Select Plan</a>
+          </div>
+        </div>
+        <p class="guarantee">// Cancel anytime · No joining fee · 3-day free pass on every plan</p>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="faq" style="padding-top:2rem">
+      <div class="container faq-wrap">
+        <div class="section-head reveal">
+          <span class="section-tag">QUESTIONS</span>
+          <h2 class="section-title">Before you<br>walk in</h2>
+          <p class="section-desc">Still unsure? Call us at (555) 392-4467 and a coach will answer.</p>
+        </div>
+        <div class="faq-list reveal">
+          <div class="faq-item">
+            <button class="faq-q" aria-expanded="false">Do I need experience to join?<span class="plus">+</span></button>
+            <div class="faq-a"><p>Not at all. Every new member gets a free fitness evaluation and a coach walks you through the floor on day one.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" aria-expanded="false">How does 24/7 access work?<span class="plus">+</span></button>
+            <div class="faq-a"><p>Members receive a personal keyfob. Outside staffed hours, the facility is monitored and fully accessible.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" aria-expanded="false">Can I cancel or freeze my membership?<span class="plus">+</span></button>
+            <div class="faq-a"><p>Yes. Cancel anytime with zero penalties, or freeze for up to 3 months per year.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" aria-expanded="false">Is the free pass really free?<span class="plus">+</span></button>
+            <div class="faq-a"><p>100%. Three full days of access, no credit card required. Just bring a photo ID.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-banner">
+      <div class="container text-center">
+        <h2 class="banner-title reveal">Stop waiting.<br>Start forging.</h2>
+        <p class="banner-subtext reveal">Walk in today or claim your 3-day guest pass online. No credit card required.</p>
+        <a href="../../contact.html" class="btn btn-primary btn-lg reveal">Claim Your Free Pass Now <span class="arrow">→</span></a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-col">
+        <a href="index.html" class="logo"><span class="logo-mark">⚡</span>FORGE<span class="logo-dot">.</span></a>
+        <p class="footer-text">The premier strength and high-performance training ground. Push past your limits every single day.</p>
+        <div class="hours">
+          <strong>Staffed Hours:</strong> Mon–Fri: 5am – 11pm | Sat–Sun: 7am – 9pm<br>
+          <em>24/7 Keyfob Access for Members</em>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#programs">Programs</a></li>
+          <li><a href="#pricing">Memberships</a></li>
+          <li><a href="../../contact.html">Contact &amp; Passes</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Location &amp; Contact</h4>
+        <p>1404 Ironworks Blvd, Industrial District</p>
+        <p><strong>Phone:</strong> <a href="tel:5553924467">(555) 392-4467</a></p>
+        <p><strong>Email:</strong> <a class="mail" href="mailto:contact@forgegym.com">contact@forgegym.com</a></p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container footer-bottom-flex">
+        <p>&copy; <span id="year">2026</span> FORGE Gym. All Rights Reserved.</p>
+        <p class="template-tag">Built for Portfolio by Mair</p>
+      </div>
+    </div>
+  </footer>
+
+  <button class="to-top" id="toTop" aria-label="Back to top">↑</button>
+
+  <script>
+    (function(){
+      const header=document.getElementById('header');
+      const toTop=document.getElementById('toTop');
+      const onScroll=()=>{const y=window.scrollY;header.classList.toggle('scrolled',y>40);toTop.classList.toggle('show',y>600)};
+      window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+      toTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+      // mobile menu
+      const toggle=document.getElementById('menuToggle'),menu=document.getElementById('navMenu');
+      const setMenu=open=>{menu.classList.toggle('open',open);toggle.classList.toggle('open',open);toggle.setAttribute('aria-expanded',open);document.body.style.overflow=open?'hidden':''};
+      toggle.addEventListener('click',()=>setMenu(!menu.classList.contains('open')));
+      menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
+
+      // active nav on scroll
+      const links=[...document.querySelectorAll('.nav-link[href^="#"]')];
+      const spy=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));const l=links.find(l=>l.getAttribute('href')==='#'+e.target.id);if(l)l.classList.add('active')}}),{rootMargin:'-45% 0px -50% 0px'});
+      links.forEach(l=>{const s=document.querySelector(l.getAttribute('href'));if(s)spy.observe(s)});
+
+      // reveal
+      const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+      document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%4)*80+'ms';io.observe(el)});
+
+      // counters
+      const co=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;const el=e.target,t=+el.dataset.count,s=el.dataset.suffix||'';let st=null;
+        const step=ts=>{st=st||ts;const p=Math.min((ts-st)/1400,1);el.textContent=Math.round(t*(1-Math.pow(1-p,3)))+s;if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step);co.unobserve(el)}),{threshold:.6});
+      document.querySelectorAll('[data-count]').forEach(el=>co.observe(el));
+
+      // card spotlight
+      document.querySelectorAll('.feature-card').forEach(c=>c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px')}));
+
+      // billing toggle
+      document.querySelectorAll('[data-billing]').forEach(b=>b.addEventListener('click',()=>{
+        document.querySelectorAll('[data-billing]').forEach(x=>x.classList.remove('active'));b.classList.add('active');
+        const yearly=b.dataset.billing==='yearly';
+        document.querySelectorAll('.amount').forEach(a=>{const m=+a.dataset.monthly;a.textContent=yearly?Math.round(m*12*.85):m;a.nextElementSibling.textContent=yearly?'/yr':'/mo'});
+      }));
+
+      // faq
+      document.querySelectorAll('.faq-item').forEach(item=>{const q=item.querySelector('.faq-q'),a=item.querySelector('.faq-a');
+        q.addEventListener('click',()=>{const open=item.classList.toggle('open');q.setAttribute('aria-expanded',open);a.style.maxHeight=open?a.scrollHeight+'px':0})});
+
+      document.getElementById('year').textContent=new Date().getFullYear();
+    })();
+  </script>
+</body>
+</html>
