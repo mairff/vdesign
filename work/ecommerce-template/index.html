@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShopNest - Online Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== TOP BAR ===== -->
+  <div class="topbar">Free delivery on orders over $50 &bull; Use code <b>NEST10</b> for 10% off</div>
+
+  <!-- ===== HEADER ===== -->
+  <header class="header">
+    <a href="#" class="logo">
+      <!-- logo pic here (optional): <img src="logo.png" alt="logo"> -->
+      Shop<span>Nest</span>
+    </a>
+
+    <div class="search">
+      <select id="searchCategory">
+        <option value="all">All</option>
+      </select>
+      <input id="searchInput" type="text" placeholder="Search products, brands..." />
+      <button id="searchBtn" aria-label="Search">&#128269;</button>
+    </div>
+
+    <button class="cart-btn" id="openCart">
+      &#128722; Cart <span class="badge" id="cartCount">0</span>
+    </button>
+  </header>
+
+  <!-- ===== CATEGORY NAV ===== -->
+  <nav class="catnav" id="catNav"></nav>
+
+  <!-- ===== HERO BANNER ===== -->
+  <section class="hero">
+    <div class="hero-text">
+      <span class="tag">MEGA SALE</span>
+      <h1>Up to 40% off top brands</h1>
+      <p>Fashion, electronics, shoes and more — limited time deals.</p>
+      <a href="#products" class="btn-primary">Shop Deals</a>
+    </div>
+    <!-- banner pic here: put banner.jpg in this folder -->
+    <img class="hero-img" src="banner.jpg" alt="Sale banner" onerror="this.style.display='none'" />
+  </section>
+
+  <!-- ===== MAIN ===== -->
+  <main class="layout" id="products">
+    <!-- FILTERS -->
+    <aside class="filters">
+      <h3>Filters</h3>
+
+      <div class="filter-group">
+        <h4>Brand</h4>
+        <div id="brandFilters"></div>
+      </div>
+
+      <div class="filter-group">
+        <h4>Max Price: $<span id="priceLabel">500</span></h4>
+        <input type="range" id="priceRange" min="0" max="500" value="500" />
+      </div>
+
+      <div class="filter-group">
+        <h4>Rating</h4>
+        <label><input type="radio" name="rating" value="0" checked /> Any</label>
+        <label><input type="radio" name="rating" value="4" /> 4★ & up</label>
+        <label><input type="radio" name="rating" value="4.5" /> 4.5★ & up</label>
+      </div>
+
+      <div class="filter-group">
+        <label><input type="checkbox" id="onlyDiscount" /> On sale only</label>
+      </div>
+
+      <button class="btn-outline" id="resetFilters">Reset filters</button>
+    </aside>
+
+    <!-- PRODUCT GRID -->
+    <section class="content">
+      <div class="toolbar">
+        <p id="resultCount">0 results</p>
+        <select id="sortBy">
+          <option value="featured">Sort: Featured</option>
+          <option value="low">Price: Low to High</option>
+          <option value="high">Price: High to Low</option>
+          <option value="rating">Top Rated</option>
+          <option value="discount">Biggest Discount</option>
+        </select>
+      </div>
+      <div class="grid" id="productGrid"></div>
+    </section>
+  </main>
+
+  <!-- ===== CART DRAWER ===== -->
+  <div class="overlay" id="overlay"></div>
+  <aside class="drawer" id="cartDrawer">
+    <div class="drawer-head">
+      <h3>Your Cart</h3>
+      <button class="close" id="closeCart">&times;</button>
+    </div>
+    <div class="drawer-body" id="cartItems"></div>
+    <div class="drawer-foot">
+      <div class="promo">
+        <input id="promoInput" placeholder="Promo code (try NEST10)" />
+        <button id="applyPromo">Apply</button>
+      </div>
+      <div class="row"><span>Subtotal</span><span id="subtotal">$0.00</span></div>
+      <div class="row"><span>Discount</span><span id="promoDiscount">-$0.00</span></div>
+      <div class="row"><span>Shipping</span><span id="shipping">$0.00</span></div>
+      <div class="row total"><span>Total</span><span id="total">$0.00</span></div>
+      <button class="btn-primary full" id="checkoutBtn">Proceed to Checkout</button>
+    </div>
+  </aside>
+
+  <!-- ===== CHECKOUT MODAL (DUMMY PAYMENT) ===== -->
+  <div class="modal" id="checkoutModal">
+    <div class="modal-box">
+      <button class="close" id="closeModal">&times;</button>
+      <div id="checkoutForm">
+        <h2>Checkout</h2>
+        <p class="muted">Demo only — no real money is charged. Test card: 4242 4242 4242 4242</p>
+        <form id="payForm">
+          <h4>Shipping</h4>
+          <input required id="fullName" placeholder="Full name" />
+          <input required id="address" placeholder="Address" />
+          <div class="two">
+            <input required id="city" placeholder="City" />
+            <input required id="zip" placeholder="ZIP" />
+          </div>
+          <h4>Payment</h4>
+          <input required id="cardNumber" placeholder="Card number" maxlength="19" />
+          <div class="two">
+            <input required id="expiry" placeholder="MM/YY" maxlength="5" />
+            <input required id="cvv" placeholder="CVV" maxlength="3" />
+          </div>
+          <p class="error" id="payError"></p>
+          <button type="submit" class="btn-primary full" id="payBtn">Pay $0.00</button>
+        </form>
+      </div>
+      <div id="successBox" class="success hidden">
+        <div class="check">&#10003;</div>
+        <h2>Payment successful!</h2>
+        <p>Order <b id="orderId"></b> confirmed. Thanks for shopping with ShopNest.</p>
+        <button class="btn-primary" id="continueBtn">Continue shopping</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <footer class="footer">
+    <p>&copy; 2026 ShopNest. Demo store template.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
